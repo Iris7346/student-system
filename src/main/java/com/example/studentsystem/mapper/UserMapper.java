@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface UserMapper {
+public interface UserMapper{
 
     //按照用户名查询用户(把 real_name 映射成 realName)
     @Select("SELECT id, username, password, real_name AS realName, role, created_at AS createdAt FROM user WHERE username = #{username}")

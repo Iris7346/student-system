@@ -13,18 +13,18 @@ import org.springframework.stereotype.Service;
  * 必须实现 UserDetailsService 接口
  */
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Autowired //自动把UserMapper注入进来（不用自己去new）
     private UserMapper userMapper;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
         //1.调用Mapper去数据库根据用户名查数据
         User user = userMapper.findByUsername(username);
 
         //2.如果没查到，抛出异常，Spring Security会自动处理（登录失败）
-        if (user == null) {
+        if(user == null){
             throw new UsernameNotFoundException("用户名不存在");
         }
 

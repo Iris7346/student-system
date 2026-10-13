@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Data
-public class User implements UserDetails { //实现UserDetails接口
+public class User implements UserDetails{ //实现UserDetails接口
     private Long id;
     private String username;
     private String password;
@@ -24,18 +24,18 @@ public class User implements UserDetails { //实现UserDetails接口
      * 数据库里存的是 "STUDENT"，这里转换成 "ROLE_STUDENT"
      */
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities(){
         //Collections.singletonList 表示只返回一个元素的列表
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role));
     }
 
     @Override
-    public String getPassword() {
+    public String getPassword(){
         return this.password;
     }
 
     @Override
-    public String getUsername() {
+    public String getUsername(){
         return this.username;
     }
 

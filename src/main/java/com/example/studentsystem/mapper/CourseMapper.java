@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Update;
 import java.util.List;
 
 @Mapper
-public interface CourseMapper {
+public interface CourseMapper{
 
     //1.查询所有课程
     @Select("SELECT id, name, teacher_id AS teacherId, max_students AS maxStudents, description FROM course")

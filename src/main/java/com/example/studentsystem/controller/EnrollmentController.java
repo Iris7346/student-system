@@ -15,14 +15,14 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/enrollments")
 @PreAuthorize("hasRole('STUDENT')")//这个接口只有学生能访问
-public class EnrollmentController {
+public class EnrollmentController{
 
     @Autowired
     private EnrollmentService enrollmentService;
 
     //1.学生选课
     @PostMapping
-    public Result<Void> enroll(@RequestBody Map<String, Long> data, Authentication authentication) {
+    public Result<Void> enroll(@RequestBody Map<String, Long> data, Authentication authentication){
         //从 Spring Security 上下文里拿到当前登录学生的ID
         User currentUser = (User) authentication.getPrincipal();
         Long courseId = data.get("courseId"); //前端传过来的课程ID
@@ -33,14 +33,14 @@ public class EnrollmentController {
 
     //2.学生退课
     @DeleteMapping("/{id}")
-    public Result<Void> cancelEnroll(@PathVariable Long id) {
+    public Result<Void> cancelEnroll(@PathVariable Long id){
         enrollmentService.cancelEnroll(id);
         return Result.success();
     }
 
     //3.学生查看已选课程列表
     @GetMapping("/student")
-    public Result<List<Course>> getMyCourses(Authentication authentication) {
+    public Result<List<Course>> getMyCourses(Authentication authentication){
         User currentUser = (User) authentication.getPrincipal();
         return Result.success(enrollmentService.getMyCourses(currentUser.getId()));
     }

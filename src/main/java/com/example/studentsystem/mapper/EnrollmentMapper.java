@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface EnrollmentMapper {
+public interface EnrollmentMapper{
 
     //1.学生选课(插入一条选课记录)
     @Insert("INSERT INTO enrollment(student_id, course_id) VALUES(#{studentId}, #{courseId})")

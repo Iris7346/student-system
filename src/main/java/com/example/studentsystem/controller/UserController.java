@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @PreAuthorize("hasRole('TEACHER')")
-public class UserController {
+public class UserController{
 
     @Autowired
     private UserMapper userMapper;
@@ -25,14 +25,14 @@ public class UserController {
     //1.查看所有用户(TEACHER)
     @GetMapping
     @PreAuthorize("hasRole('TEACHER')")
-    public Result<List<User>> getAllUsers() {
+    public Result<List<User>> getAllUsers(){
         return Result.success(userMapper.findAll());
     }
 
     //2.创建用户(TEACHER)
     @PostMapping
     @PreAuthorize("hasRole('TEACHER')")
-    public Result<Void> createUser(@RequestBody User user) {
+    public Result<Void> createUser(@RequestBody User user){
         //关键安全点：不能把明文密码存进数据库，必须加密
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         //调用 Mapper 的 insert 方法
@@ -47,15 +47,15 @@ public class UserController {
      * 注意：这个接口需要登录后才能访问
      */
     @GetMapping("/profile")
-    public Result<User> getProfile(@RequestHeader("Authorization") String token) {
+    public Result<User> getProfile(@RequestHeader("Authorization") String token){
         //1.客户端传来的 Token 通常带 "Bearer " 前缀，把它切掉
-        if (token != null && token.startsWith("Bearer ")) {
+        if(token != null && token.startsWith("Bearer ")){
             token = token.substring(7);
         }
 
         //2.从 Token 里解析出用户ID
         Long userId = JwtUtil.getUserIdFromToken(token);
-        if (userId == null) {
+        if(userId == null){
             return Result.error(401, "无效的 Token，请重新登录");
         }
 
@@ -63,7 +63,7 @@ public class UserController {
         User user = userMapper.findById(userId);
 
         //4.出于安全，把密码置空，不返回给前端
-        if (user != null) {
+        if(user != null){
             user.setPassword(null);
         }
 

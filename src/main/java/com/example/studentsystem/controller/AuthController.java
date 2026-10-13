@@ -13,12 +13,12 @@ import java.util.Map;
 
 @RestController //声明这是一个返回 JSON 格式的控制器
 @RequestMapping("/api/auth") //接口前缀
-public class AuthController {
+public class AuthController{
 
     private final AuthenticationManager authenticationManager;
 
     //构造器注入（这个可以保证依赖不可变且不为空）
-    public AuthController(AuthenticationManager authenticationManager) {
+    public AuthController(AuthenticationManager authenticationManager){
         this.authenticationManager = authenticationManager;
     }
 
@@ -28,7 +28,7 @@ public class AuthController {
      * 路径：/api/auth/login
      */
     @PostMapping("/login")
-    public Result<Map<String, Object>> login(@RequestBody Map<String, String> loginData) {
+    public Result<Map<String, Object>> login(@RequestBody Map<String, String> loginData){
         //1.从前端传来的 JSON 中提取 username 和 password
         String username = loginData.get("username");
         String password = loginData.get("password");

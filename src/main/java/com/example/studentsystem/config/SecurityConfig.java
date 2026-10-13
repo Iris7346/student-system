@@ -12,8 +12,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 
 @Configuration //告诉Spring Boot，这是一个配置类
 @EnableWebSecurity //开启Spring Security的Web安全功能
-@EnableMethodSecurity //开启方法级别的权限注解（后面会用到 @PreAuthorize）
-public class SecurityConfig {
+@EnableMethodSecurity //开启方法级别的权限注解
+public class SecurityConfig{
 
     /**
      * 定义密码加密器
@@ -21,7 +21,7 @@ public class SecurityConfig {
      * 只要把这个 Bean 交给 Spring，以后存密码、比对密码，Spring 都会自动加密和校验
      */
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
@@ -29,11 +29,11 @@ public class SecurityConfig {
      * 配置安全过滤链（Security Filter Chain）
      * 这里定义了哪些接口需要登录，哪些不需要，以及如何处理未登录的情况
      */
-    @Autowired // 注入我们写的 JWT 过滤器
+    @Autowired // 注入 JWT 过滤器
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
                 //1.关闭 CSRF 防护
                 .csrf(csrf -> csrf.disable())
@@ -64,7 +64,7 @@ public class SecurityConfig {
      */
     @Bean
     public org.springframework.security.authentication.AuthenticationManager authenticationManager(
-            org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration configuration) throws Exception {
+            org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration configuration) throws Exception{
         return configuration.getAuthenticationManager();
     }
 }

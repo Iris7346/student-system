@@ -9,7 +9,7 @@ import java.util.Base64;
  * 极简版 JWT 工具类
  * 使用了 HMAC-SHA256 算法对头部和载荷进行签名，防止 Token 被篡改。
  */
-public class JwtUtil {
+public class JwtUtil{
     //签名用的密钥
     private static final String SECRET_KEY = "MySecretKeyForStudentSystem";
 
@@ -19,7 +19,7 @@ public class JwtUtil {
      * @param role 用户角色（STUDENT/TEACHER）
      * @return 生成好的 JWT 字符串
      */
-    public static String generateToken(Long userId, String role) {
+    public static String generateToken(Long userId, String role){
         //1.构建 Header
         String header = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
 
@@ -43,14 +43,14 @@ public class JwtUtil {
     /**
      * HMAC-SHA256 签名算法
      */
-    private static String hmacSha256(String data, String key) {
-        try {
+    private static String hmacSha256(String data, String key){
+        try{
             Mac mac = Mac.getInstance("HmacSHA256");
             SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
             mac.init(secretKeySpec);
             byte[] hash = mac.doFinal(data.getBytes(StandardCharsets.UTF_8));
             return Base64.getUrlEncoder().withoutPadding().encodeToString(hash);
-        } catch (Exception e) {
+        }catch(Exception e){
             throw new RuntimeException("生成签名失败", e);
         }
     }
@@ -60,8 +60,8 @@ public class JwtUtil {
      * @param token 客户端传来的 Token
      * @return 用户ID (如果解析失败，返回 null)
      */
-    public static Long getUserIdFromToken(String token) {
-        try {
+    public static Long getUserIdFromToken(String token){
+        try{
             //按点号分割成三部分：Header, Payload, Signature
             String[] parts = token.split("\\.");
             if (parts.length != 3) return null;
@@ -72,7 +72,7 @@ public class JwtUtil {
             //从 JSON 字符串里提取 userId(字符串切割）
             String userIdStr = payload.substring(payload.indexOf("\"userId\":") + 9, payload.indexOf(","));
             return Long.parseLong(userIdStr);
-        } catch (Exception e) {
+        }catch(Exception e){
             return null; //解析失败
         }
     }
